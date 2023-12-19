@@ -1,0 +1,47 @@
+
+local Neverlose_Main = loadstring(game:HttpGet"https://github.com/Mana42138/Neverlose-UI/blob/main/Source.lua")()
+local Win = Neverlose_Main:Window({
+    Title = "Chest Farm | Hhhhmt Hub",
+    CFG = "Hi",
+    Key = Enum.KeyCode.H,
+    External = {
+        KeySystem = false,
+        Key = {
+            
+        }
+    }
+})
+local TabSection1 = Win:TSection("Main Menu")
+
+local CF = TabSection1:Tab("Chest Farm:")
+
+local CFToggle = CF:Toggle("Chest Farm", function(val)
+    _G.Chest_Farm = val
+end)
+
+
+spawn(function()
+   while wait(.8) do
+      if _G.Chest_Farm then
+          pcall(function()
+  
+  for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+      if string.find(v.Name, "Chest") then
+          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+          v.CanCollide = false
+          wait(.15)
+      end
+  end
+  for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+   if string.find(v.Name, "Chest") and v:IsA("TouchTransmitter") then
+   firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0) 
+   wait()
+   firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
+   end
+   end
+   wait(11) 
+   game.Players.LocalPlayer.Character.Head:Destroy()
+  end)
+      end
+  end
+end)
