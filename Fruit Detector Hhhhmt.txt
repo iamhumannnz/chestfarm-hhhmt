@@ -1,0 +1,77 @@
+local Neverlose_Main = loadstring(game:HttpGet"https://github.com/Mana42138/Neverlose-UI/blob/main/Source.lua")()
+local Win = Neverlose_Main:Window({
+    Title = "Fruit Detector | Hhhhmt Hub",
+    CFG = "Hi",
+    Key = Enum.KeyCode.H,
+    External = {
+        KeySystem = false,
+        Key = {
+            
+        }
+    }
+})
+local TabSection1 = Win:TSection("Main Menu")
+
+local Fd= TabSection1:Tab("Fruit Detector")
+
+local AutoFarmVar = FD:Toggle("Fruit ESP", function(val)
+    _G.FruitESP = val
+end)
+
+function updatedfesp()
+for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+            pcall(function()
+                if _G.ESPFruit then
+                    if v:IsA("Tool") then   
+                        if not v.Handle:FindFirstChild('NameEsp'..Number) then
+                            local bill = Instance.new('BillboardGui',v.Handle)
+                            bill.Name = 'NameEsp'..Number
+                            bill.ExtentsOffset = Vector3.new(0, 1, 0)
+                            bill.Size = UDim2.new(1,200,1,30)
+                            bill.Adornee = v.Handle
+                            bill.AlwaysOnTop = true
+                            local name = Instance.new('TextLabel',bill)
+                            name.Font = "GothamBold"
+                            name.FontSize = "Size14"
+                            name.TextWrapped = true
+                            name.Size = UDim2.new(1,0,1,0)
+                            name.TextYAlignment = 'Top'
+                            name.BackgroundTransparency = 1
+                            name.TextStrokeTransparency = 0.5
+                            name.TextColor3 = Color3.fromRGB(255, 0, 0)
+                            name.Text = (v.Name ..' \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3) ..' M')
+                        else
+                            v.Handle['NameEsp'..Number].TextLabel.Text = (v.Name ..'   \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3) ..' M')
+                        end
+                    end
+                else
+                    if v.Handle:FindFirstChild('NameEsp'..Number) then
+                        v.Handle:FindFirstChild('NameEsp'..Number):Destroy()
+                        end
+                end
+            end)
+        end
+
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.FruitESP then
+updatedfesp()
+end
+end)
+
+FD:Button("Check Spawned Fruit", function()
+for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+      if v:IsA("Tool") then
+    Neverlose_Main:Notify({
+    Title = "Fruit Spawned!"
+    Text = " "..v.Name.. " ",
+    Time = 10
+    })
+    else
+    Neverlose_Main:Notify({
+    Title = "Sorry"
+    Text = "No Fruit detected on your server",
+    Time = 5
+    })
+    end
+ end
+end)
